@@ -89,8 +89,9 @@ p{margin:0}
 .hero .lede{font-size:1.15rem;max-width:30ch;margin-bottom:28px}
 .hero-photo{position:relative}
 .hero-photo img{width:100%;aspect-ratio:2/1.15;object-fit:cover}
-.hero-photo figcaption{position:absolute;left:-14px;bottom:28px;transform:rotate(-4deg);transform-origin:left bottom;background:#fff;color:var(--red);font:400 clamp(1.9rem,3.6vw,2.8rem)/1 var(--display);text-transform:uppercase;letter-spacing:.03em;padding:10px 20px 8px;box-shadow:6px 6px 0 var(--black)}
-@media (max-width:860px){.hero-photo figcaption{left:10px;bottom:14px;font-size:1.5rem;padding:8px 14px 6px;box-shadow:4px 4px 0 var(--black)}}
+.hero-photo figcaption{position:absolute;left:20px;bottom:18px;display:flex;align-items:center;gap:12px;color:#fff;font:700 .74rem/1 var(--body);letter-spacing:.24em;text-transform:uppercase;text-shadow:0 1px 10px rgba(0,0,0,.55)}
+.hero-photo figcaption::before{content:"";width:44px;height:1px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.4)}
+@media (max-width:860px){.hero-photo figcaption{left:14px;bottom:12px;font-size:.68rem}.hero-photo figcaption::before{width:28px}}
 @media (max-width:860px){.hero-grid{grid-template-columns:1fr;gap:28px}.hero{padding-top:20px}.hero .lede{max-width:none}}
 
 /* info bar */
