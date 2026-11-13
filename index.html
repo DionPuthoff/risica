@@ -89,7 +89,8 @@ p{margin:0}
 .hero .lede{font-size:1.15rem;max-width:30ch;margin-bottom:28px}
 .hero-photo{position:relative}
 .hero-photo img{width:100%;aspect-ratio:2/1.15;object-fit:cover}
-.hero-photo figcaption{position:absolute;left:0;bottom:0;background:var(--black);color:#fff;font-size:.78rem;letter-spacing:.06em;padding:6px 12px}
+.hero-photo figcaption{position:absolute;left:-14px;bottom:28px;transform:rotate(-4deg);transform-origin:left bottom;background:#fff;color:var(--red);font:400 clamp(1.9rem,3.6vw,2.8rem)/1 var(--display);text-transform:uppercase;letter-spacing:.03em;padding:10px 20px 8px;box-shadow:6px 6px 0 var(--black)}
+@media (max-width:860px){.hero-photo figcaption{left:10px;bottom:14px;font-size:1.5rem;padding:8px 14px 6px;box-shadow:4px 4px 0 var(--black)}}
 @media (max-width:860px){.hero-grid{grid-template-columns:1fr;gap:28px}.hero{padding-top:20px}.hero .lede{max-width:none}}
 
 /* info bar */
@@ -241,16 +242,9 @@ textarea{min-height:120px;resize:vertical}
 .form-msg{grid-column:1/-1;background:var(--black);color:#fff;padding:14px 16px}
 @media (max-width:860px){.form-wrap{grid-template-columns:1fr;gap:28px}form{grid-template-columns:1fr}}
 
-/* toast + notes */
+/* toast */
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--black);color:#fff;padding:14px 18px;max-width:min(92vw,460px);font-size:.92rem;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;border-left:4px solid var(--red)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-.notes-btn{position:fixed;right:16px;bottom:16px;z-index:40;background:#FFD43B;color:#000;border:0;font:700 .8rem/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:14px 16px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25)}
-.notes{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);display:flex;justify-content:flex-end}
-.notes-panel{background:var(--paper);width:min(520px,100%);height:100%;overflow:auto;padding:28px 28px 40px}
-.notes-panel h2{font-size:2.2rem;margin-bottom:8px}
-.notes-panel h3{font-size:1.25rem;margin:24px 0 8px;color:var(--red)}
-.notes-panel ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:.93rem}
-.notes-close{float:right;background:none;border:2px solid var(--ink);font:700 .8rem var(--body);padding:8px 12px;cursor:pointer;text-transform:uppercase;letter-spacing:.08em}
 </style>
 </head>
 <body>
@@ -292,7 +286,7 @@ textarea{min-height:120px;resize:vertical}
       </div>
       <figure class="hero-photo" style="margin:0">
         <img src="img/oven.jpg" srcset="img/oven-900.jpg 900w, img/oven.jpg 1496w" sizes="(max-width:860px) 100vw, 60vw" width="1496" height="747" alt="A Margherita pizza on a wooden board in front of Risica's white-tiled pizza oven" fetchpriority="high">
-        <figcaption>Margherita, $16</figcaption>
+        <figcaption>Margherita</figcaption>
       </figure>
     </div>
   </section>
@@ -567,39 +561,6 @@ textarea{min-height:120px;resize:vertical}
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<button class="notes-btn" id="notes-btn" aria-haspopup="dialog">What changed</button>
-<div class="notes" id="notes" hidden>
-  <div class="notes-panel" role="dialog" aria-modal="true" aria-labelledby="notes-h">
-    <button class="notes-close" id="notes-close">Close</button>
-    <h2 id="notes-h">Redesign notes</h2>
-    <p>A proposal for risicadenver.com. Dashed outlines mark details only Risica can fill in. This panel is not part of the site.</p>
-    <h3>What changed</h3>
-    <ul>
-      <li>Says "open" everywhere. All "opening soon" and "before we open" copy is gone.</li>
-      <li>Reserve and Order Pickup buttons in the header and the first screen, on desktop and phone.</li>
-      <li>Today's hours with a live open/closed status, address with a map link, and phone right under the hero.</li>
-      <li>Full menu and wine list as a web page instead of a PDF only (the PDF is still linked).</li>
-      <li>Catering moved into the main nav, with buffets as clear packages, a how-it-works strip and an inquiry form with date, headcount and service type.</li>
-      <li>Catering typos fixed: "interactive" (was "inactive"), garlic, hummus, caponata, cocoa, Chantilly, petits fours, Chef's table, macarons, "72-hour", "6-hour", Grana Padano.</li>
-      <li>Menu typos fixed: Parmigiano Reggiano, Pinot Grigio Ramato, Mastroberardino, Valle d'Aosta, Tormaresca, Dolomiti, Goofy Bandit, Catarratto, bufala.</li>
-      <li>Stock dessert photo removed; real Risica photos only, compressed (hero went from 1.4 MB to under 200 KB).</li>
-      <li>One H1 per page, alt text on every photo, full Restaurant structured data (address, hours, cuisine) for Google.</li>
-      <li>Shorter, more specific copy built from the actual menu.</li>
-    </ul>
-    <h3>Needed from Risica</h3>
-    <ul>
-      <li>Phone number</li>
-      <li>Reservation link (Resy, OpenTable, Toast Tables) and Toast online-ordering link</li>
-      <li>A general or events email to replace the personal address</li>
-      <li>Parking and entrance directions</li>
-            <li>Name for the $55 buffet ("Semplice" is a suggestion)</li>
-      <li>Catering lead time and delivery area</li>
-      <li>Charcuterie sizes jump from 8–15 to 30–40 guests. Is there a size for 15–30?</li>
-      <li>Scallop type (the old copy said "large bay scallops")</li>
-      <li>Instagram and other social links</li>
-    </ul>
-  </div>
-</div>
 
 <script>
 (function(){
@@ -671,13 +632,6 @@ textarea{min-height:120px;resize:vertical}
     form.appendChild(m);if(miss.length)miss[0].focus();
   });
 
-  /* ---------- notes panel ---------- */
-  var notes=document.getElementById('notes'),nb=document.getElementById('notes-btn');
-  function closeNotes(){notes.hidden=true;nb.focus()}
-  nb.addEventListener('click',function(){notes.hidden=false;document.getElementById('notes-close').focus()});
-  document.getElementById('notes-close').addEventListener('click',closeNotes);
-  notes.addEventListener('click',function(ev){if(ev.target===notes)closeNotes()});
-  document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&!notes.hidden)closeNotes()});
 
   route();
 })();

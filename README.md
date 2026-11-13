@@ -15,14 +15,12 @@ The page switches views with the URL hash:
 
 ## Still needed from Risica
 
-Placeholders have a dashed outline on the page. The yellow **What changed** button lists them all:
+Placeholders have a dashed outline on the page:
 
 - Phone number, general email, parking directions, Instagram
 - Reservation and Toast online-ordering links (the Reserve and Order buttons show a note until these are set)
 - Catering lead time, delivery area and a name for the $55 buffet
 - Somewhere for the catering form to send (it only shows a preview message for now)
-
-Before launch, remove the "What changed" panel (`.notes-btn` and `#notes` in `index.html`).
 
 ## Images
 
