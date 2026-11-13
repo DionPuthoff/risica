@@ -17,7 +17,7 @@ The page switches views with the URL hash:
 
 Placeholders have a dashed outline on the page:
 
-- Phone number, general email, parking directions, Instagram
+- General email, parking directions, Instagram
 - Reservation and Toast online-ordering links (the Reserve and Order buttons show a note until these are set)
 - Catering lead time, delivery area and a name for the $55 buffet
 - Somewhere for the catering form to send (it only shows a preview message for now)

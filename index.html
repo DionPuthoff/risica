@@ -11,7 +11,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Restaurant","name":"Risica","description":"Milanese pizzeria and wine bar","servesCuisine":["Italian","Pizza"],"priceRange":"$$",
 "address":{"@type":"PostalAddress","streetAddress":"3463 Walnut St, Suite 2","addressLocality":"Denver","addressRegion":"CO","postalCode":"80205","addressCountry":"US"},
-"url":"https://risicadenver.com","menu":"https://risicadenver.com/menu","acceptsReservations":true,
+"url":"https://risicadenver.com","telephone":"+1-303-736-8154","menu":"https://risicadenver.com/menu","acceptsReservations":true,
 "openingHoursSpecification":[
 {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday"],"opens":"11:00","closes":"21:00"},
 {"@type":"OpeningHoursSpecification","dayOfWeek":"Thursday","opens":"11:00","closes":"21:30"},
@@ -304,7 +304,7 @@ textarea{min-height:120px;resize:vertical}
       </div>
       <div class="info-item">
         <span class="info-label">Call</span>
-        <span class="info-val"><span class="todo">(720) phone number</span></span>
+        <span class="info-val"><a href="tel:+13037368154">(303) 736-8154</a></span>
       </div>
     </div>
   </section>
@@ -514,8 +514,7 @@ textarea{min-height:120px;resize:vertical}
 <!-- ============ VISIT (on every view) ============ -->
 <section class="band" id="visit" aria-labelledby="visit-h">
   <div class="wrap">
-    <p class="kicker">Visit</p>
-    <h2 class="h2" id="visit-h">Find Risica</h2>
+    <h2 class="h2" id="visit-h">Visit Risica</h2>
     <div class="visit-grid">
       <div class="stack">
         <h3>Location</h3>
@@ -540,7 +539,7 @@ textarea{min-height:120px;resize:vertical}
       </div>
       <div class="stack">
         <h3>Contact</h3>
-        <p><span class="todo">(720) phone number</span></p>
+        <p><a href="tel:+13037368154">(303) 736-8154</a></p>
         <p><span class="todo">info@risicadenver.com</span></p>
         <p>Catering: <a href="#inquire">send an inquiry</a></p>
         <div class="btn-row" style="margin-top:8px"><a class="btn btn-red" href="#" data-todo="Link this to your reservation page (Resy, OpenTable or Toast Tables).">Reserve</a></div>
@@ -555,7 +554,7 @@ textarea{min-height:120px;resize:vertical}
     <img src="img/logo-white.png" alt="Risica" width="750" height="301">
     <span>Milanese pizzeria + wine bar · RiNo, Denver</span>
     <nav aria-label="Footer">
-      <a href="#menu">Menu</a><a href="#catering">Catering</a><a href="https://order.toasttab.com/egiftcards/risica-3463-walnut-street-suite-2">Gift cards</a><a href="https://www.toasttab.com/risica-3463-walnut-street-suite-2/rewardsSignup">Rewards</a><a href="#top">Back to top ↑</a>
+      <a href="#menu">Menu</a><a href="#catering">Catering</a><a href="https://order.toasttab.com/egiftcards/risica-3463-walnut-street-suite-2">Gift cards</a><a href="https://www.toasttab.com/risica-3463-walnut-street-suite-2/rewardsSignup">Rewards</a><a href="#top" data-top>Back to top ↑</a>
     </nav>
   </div>
 </footer>
@@ -573,7 +572,7 @@ textarea{min-height:120px;resize:vertical}
     if(h==='drinks'){view='menu';tab='drinks'}
     else if(h==='menu'){tab='food'}
     else if(h==='inquire'){view='catering';scrollTo='inquire'}
-    else if(h==='visit'||h==='top'){view=document.querySelector('.view:not([hidden])')?document.querySelector('.view:not([hidden])').id.replace('view-',''):'home';scrollTo=h}
+    else if(h==='visit'){view=document.querySelector('.view:not([hidden])')?document.querySelector('.view:not([hidden])').id.replace('view-',''):'home';scrollTo=h}
     if(!views[view]){view='home'}
     var changed=document.getElementById(views[view]).hidden;
     Object.keys(views).forEach(function(k){document.getElementById(views[k]).hidden=(k!==view)});
@@ -588,6 +587,11 @@ textarea{min-height:120px;resize:vertical}
     document.title=view==='menu'?'Menu · Risica Denver':view==='catering'?'Catering · Risica Denver':'Risica Denver';
   }
   window.addEventListener('hashchange',route);
+  document.addEventListener('click',function(ev){
+    var a=ev.target.closest('a[href^="#"]');if(!a||a.hasAttribute('data-todo'))return;
+    if(a.hasAttribute('data-top')){ev.preventDefault();window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});return}
+    if(a.getAttribute('href')===location.hash){ev.preventDefault();route()}
+  });
 
   /* ---------- tabs ---------- */
   var tabs=document.querySelectorAll('.tab');
