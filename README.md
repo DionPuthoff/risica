@@ -22,6 +22,10 @@ Placeholders have a dashed outline on the page:
 - Catering lead time, delivery area and a name for the $55 buffet
 - Somewhere for the catering form to send (it only shows a preview message for now)
 
+## Hero options
+
+A switch in the bottom-left corner flips the homepage hero between the red version and a full-width background video (`img/hero.mp4`, compressed to 1080p, about 5 MB, with a pause button). The video loads only when that option is picked. Remove the switch and keep one version before launch.
+
 ## Images
 
 Photos come from Risica's current site and were compressed for the web. Fonts are Anton and Epilogue from Google Fonts.

@@ -81,7 +81,25 @@ p{margin:0}
 }
 
 /* hero */
-.hero{background:var(--red);color:#fff;padding:28px 0 56px}
+.hero{background:var(--red);color:#fff;padding:28px 0 56px;position:relative;overflow:hidden}
+.hero-media{display:none}
+.hero.is-video{background:var(--black);padding:72px 0 96px;min-height:min(78vh,760px);display:flex;align-items:center}
+.hero.is-video .hero-media{display:block;position:absolute;inset:0}
+.hero-media video{width:100%;height:100%;object-fit:cover;display:block}
+.hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.2) 100%)}
+.hero.is-video > .wrap{position:relative;z-index:1;width:100%}
+.hero.is-video .hero-grid{grid-template-columns:1fr}
+.hero.is-video .hero-photo{display:none}
+.hero.is-video h1{font-size:clamp(3.4rem,8.4vw,7.2rem);max-width:11ch}
+.hero.is-video .eyebrow::before{background:var(--red);box-shadow:0 0 0 4px rgba(226,38,31,.35)}
+.hero.is-video .btn-solid{background:var(--red);color:#fff;border-color:var(--red)}
+.hero.is-video .btn-solid:hover{background:#fff;color:var(--red);border-color:#fff}
+.vid-pause{display:none;position:absolute;right:var(--gut);bottom:20px;z-index:2;background:rgba(0,0,0,.45);color:#fff;border:1.5px solid rgba(255,255,255,.7);font:700 .72rem/1 var(--body);letter-spacing:.12em;text-transform:uppercase;padding:10px 14px;cursor:pointer}
+.hero.is-video .vid-pause{display:block}
+.hero-switch{position:fixed;left:16px;bottom:16px;z-index:40;display:flex;align-items:center;gap:4px;background:var(--black);color:#fff;padding:5px 5px 5px 14px;box-shadow:0 8px 24px rgba(0,0,0,.3);font:700 .72rem/1 var(--body);letter-spacing:.12em;text-transform:uppercase}
+.hero-switch span{margin-right:6px;color:#A9A29C}
+.hero-switch button{font:inherit;letter-spacing:inherit;text-transform:inherit;background:none;color:#fff;border:0;padding:10px 14px;cursor:pointer;min-height:36px}
+.hero-switch button[aria-pressed="true"]{background:var(--red)}
 .hero-grid{display:grid;grid-template-columns:5fr 7fr;gap:40px;align-items:center}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
 .eyebrow::before{content:"";width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3)}
@@ -244,7 +262,7 @@ textarea{min-height:120px;resize:vertical}
 @media (max-width:860px){.form-wrap{grid-template-columns:1fr;gap:28px}form{grid-template-columns:1fr}}
 
 /* toast */
-.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--black);color:#fff;padding:14px 18px;max-width:min(92vw,460px);font-size:.92rem;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;border-left:4px solid var(--red)}
+.toast{position:fixed;left:50%;bottom:76px;transform:translate(-50%,20px);background:var(--black);color:#fff;padding:14px 18px;max-width:min(92vw,460px);font-size:.92rem;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;border-left:4px solid var(--red)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 </style>
 </head>
@@ -273,7 +291,9 @@ textarea{min-height:120px;resize:vertical}
 
 <!-- ============ HOME ============ -->
 <div class="view" id="view-home">
-  <section class="hero">
+  <section class="hero" id="hero">
+    <div class="hero-media" aria-hidden="true"><video id="hero-video" muted loop playsinline preload="none" poster="img/hero-poster.jpg"></video></div>
+    <button class="vid-pause" id="vid-pause" type="button">Pause video</button>
     <div class="wrap hero-grid">
       <div>
         <span class="eyebrow">Now open in RiNo</span>
@@ -561,6 +581,8 @@ textarea{min-height:120px;resize:vertical}
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<div class="hero-switch" id="hero-switch" role="group" aria-label="Hero style"><span>Hero</span><button type="button" data-hero="red" aria-pressed="true">Red</button><button type="button" data-hero="video" aria-pressed="false">Video</button></div>
+
 
 <script>
 (function(){
@@ -577,6 +599,7 @@ textarea{min-height:120px;resize:vertical}
     var changed=document.getElementById(views[view]).hidden;
     Object.keys(views).forEach(function(k){document.getElementById(views[k]).hidden=(k!==view)});
     if(tab)setTab(tab);
+    var sw=document.getElementById('hero-switch');if(sw)sw.hidden=(view!=='home');
     document.querySelectorAll('[data-nav]').forEach(function(a){
       var n=a.getAttribute('data-nav'); var on=(n===h)||(n==='menu'&&h==='menu')||(n==='catering'&&(h==='catering'||h==='inquire'));
       if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
@@ -637,6 +660,19 @@ textarea{min-height:120px;resize:vertical}
     form.appendChild(m);if(miss.length)miss[0].focus();
   });
 
+
+  /* ---------- hero style switch (proposal) ---------- */
+  var hero=document.getElementById('hero'),vid=document.getElementById('hero-video'),vp=document.getElementById('vid-pause');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function playVid(){var pr=vid.play();if(pr&&pr.catch)pr.catch(function(){});vp.textContent='Pause video'}
+  function setHero(mode){
+    var v=mode==='video';hero.classList.toggle('is-video',v);
+    document.querySelectorAll('[data-hero]').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-hero')===mode)});
+    if(v){if(!vid.getAttribute('src')){vid.setAttribute('src','img/hero.mp4')}if(reduce){vid.pause();vp.textContent='Play video'}else playVid()}
+    else vid.pause();
+  }
+  document.querySelectorAll('[data-hero]').forEach(function(b){b.addEventListener('click',function(){setHero(b.getAttribute('data-hero'))})});
+  vp.addEventListener('click',function(){if(vid.paused)playVid();else{vid.pause();vp.textContent='Play video'}});
 
   route();
 })();
